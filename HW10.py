@@ -230,8 +230,14 @@ print(svm_frt_accuracy)
 # svm_trn_accuracy = np.mean(svm_letter_mat_trn == np.array(list(char_trn))[:, np.newaxis], axis=0)
 # svm_frt_accuracy = np.mean(svm_letter_mat_frt == np.array(list(char_frt))[:, np.newaxis], axis=0)
 
+#Answer:
+#Rows 122, 131, 141, 150, 160, and 169 compute the character-level accuracy for each classifier (Logistic Regression, LDA, SVM) on TRN and FRT datasets.
+#They compare predicted letters with the true sequence and compute accuracy across sequences.
+
 # Step 5: Summary
 # Which method performs the best? Why?
+
+#Answer: 
 #Linear Discriminant Analysis (LDA) typically performs the best because P300 EEG data are approximately Gaussian and linearly separable at the feature level.
 # LDA is optimized to find the linear boundary that maximizes distance between class means while minimizing within-class variance.
 # This matches the statistical structure of ERP signals and leads to superior generalization compared with Logistic Regression and SVM (with default settings).
