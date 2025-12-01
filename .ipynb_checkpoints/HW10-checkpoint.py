@@ -1,7 +1,6 @@
 import os
 import scipy.io as sio
 from self_py_fun.HW10Fun import *
-
 from sklearn.linear_model import LogisticRegression as LR
 from sklearn.svm import SVC
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
@@ -59,19 +58,8 @@ eeg_trn_type = np.squeeze(eeg_trn_type, axis=1)
 # you should be able to obtain relevant data files named
 # eeg_frt_signal and eeg_frt_type
 # Write your own code below:
-frt_data_name = '{}_001_BCI_FRT_Truncated_Data_{}_{}'.format(subject_name, bp_low, bp_upp)
-frt_data_dir = '{}/{}.mat'.format(parent_data_dir, frt_data_name)
-eeg_frt_obj = sio.loadmat(frt_data_dir)
-
-print(eeg_frt_obj.keys())
-
-eeg_frt_signal = eeg_frt_obj['Signal']
-print(eeg_frt_signal.shape)
 
 
-eeg_frt_type = eeg_frt_obj['Type']
-print(eeg_frt_type.shape)
-eeg_frt_type = np.squeeze(eeg_frt_type, axis=1)
 
 
 # You have completed the exploratory data analysis in HW7 and HW8.
@@ -87,19 +75,8 @@ eeg_frt_type = np.squeeze(eeg_frt_type, axis=1)
 # except for LogisticRegression: set max_iter=1000
 # Write your own code below:
 
-# Logistic Regression
-logreg = LR(max_iter=1000)
-logreg.fit(eeg_trn_signal, eeg_trn_type)
 
-# Linear Discriminant Analysis
-lda = LDA()
-lda.fit(eeg_trn_signal, eeg_trn_type)
 
-# Support Vector Machine
-svm = SVC()
-svm.fit(eeg_trn_signal, eeg_trn_type)
-
-print("Training complete.")
 
 
 # Step 3: Evaluate model performance on both TRN and FRT files
@@ -109,41 +86,24 @@ print("Training complete.")
 # You are asked to generate stimulus-level probability for each method on TRN files,
 # denoted as logistic_y_trn, lda_y_trn, and svm_y_trn.
 # Write your own code below:
-svm = SVC(probability=True)
-svm.fit(eeg_trn_signal, eeg_trn_type)
 
-# Logistic Regression
-logistic_y_trn = logreg.predict_proba(eeg_trn_signal)[:, 1]  # probability of class 1 (target)
 
-# Linear Discriminant Analysis
-lda_y_trn = lda.predict_proba(eeg_trn_signal)[:, 1]
 
-# Support Vector Machine (requires probability=True)
-svm_y_trn = svm.predict_proba(eeg_trn_signal)[:, 1]
-
-print("Stimulus-level probabilities computed for TRN dataset.")
 
 
 # Step 3.2: Prediction accuracy on FRT files
 # Similarly, you are asked to generate stimulus-level probability for each method on FRT files,
 # denoted as logistic_y_frt, lda_y_frt, and svm_y_frt.
 # Write your own code below:
-# Logistic Regression
-logistic_y_frt = logreg.predict_proba(eeg_frt_signal)[:, 1]
 
-# Linear Discriminant Analysis
-lda_y_frt = lda.predict_proba(eeg_frt_signal)[:, 1]
 
-# Support Vector Machine (requires probability=True)
-svm_y_frt = svm.predict_proba(eeg_frt_signal)[:, 1]
 
-print("Stimulus-level probabilities computed for FRT dataset.")
 
 
 # Step 4: Convert binary classification probability to character-level accuracy
 # This involves advanced data manipulation, so you do not need to write any new code.
 # Please run the following code to view the final results.
-
+'''
 eeg_trn_code = eeg_trn_obj['Code']
 eeg_frt_code = eeg_frt_obj['Code']
 char_frt = convert_raw_char_to_alphanumeric_stype(eeg_frt_obj['Text'])
@@ -216,7 +176,7 @@ print(svm_trn_accuracy)
 print(logistic_frt_accuracy)
 print(lda_frt_accuracy)
 print(svm_frt_accuracy)
-
+'''
 
 # Remember to answer two questions below:
 
@@ -232,7 +192,3 @@ print(svm_frt_accuracy)
 
 # Step 5: Summary
 # Which method performs the best? Why?
-#Linear Discriminant Analysis (LDA) typically performs the best because P300 EEG data are approximately Gaussian and linearly separable at the feature level.
-# LDA is optimized to find the linear boundary that maximizes distance between class means while minimizing within-class variance.
-# This matches the statistical structure of ERP signals and leads to superior generalization compared with Logistic Regression and SVM (with default settings).
-# Logistic Regression performs moderately well, while SVM (RBF kernel) tends to perform the worst due to noise sensitivity and lack of tuning.
